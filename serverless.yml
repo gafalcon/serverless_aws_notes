@@ -14,6 +14,13 @@ functions:
       - http:
           method: post
           path: notes
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource: !GetAtt notesTable.Arn
+    environment:
+      NOTES_TABLE_NAME: !Ref notesTable
 
   updateNote:
     handler: handler.updateNote
@@ -21,6 +28,13 @@ functions:
       - http:
           method: put
           path: notes/{id}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource: !GetAtt notesTable.Arn
+    environment:
+      NOTES_TABLE_NAME: !Ref notesTable
 
   deleteNote:
     handler: handler.deleteNote
@@ -28,6 +42,13 @@ functions:
       - http:
           method: delete
           path: notes/{id}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:DeleteItem
+        Resource: !GetAtt notesTable.Arn
+    environment:
+      NOTES_TABLE_NAME: !Ref notesTable
 
   getAllNotes:
     handler: handler.getAllNotes
@@ -35,3 +56,39 @@ functions:
       - http:
           method: get
           path: notes
+    environment:
+      NOTES_TABLE_NAME: !Ref notesTable
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Scan
+          - dynamodb:Query
+        Resource: !GetAtt notesTable.Arn
+  getNote:
+    handler: handler.getNote
+    events:
+      - http:
+          method: get
+          path: notes/{id}
+    environment:
+      NOTES_TABLE_NAME: !Ref notesTable
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:GetItem
+        Resource: !GetAtt notesTable.Arn
+plugins:
+  - serverless-iam-roles-per-function
+resources:
+  Resources:
+    notesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: notesTable
+        AttributeDefinitions:
+          - AttributeName: notesId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: notesId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
