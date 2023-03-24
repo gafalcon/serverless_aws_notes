@@ -1,0 +1,23 @@
+@endpoint = https://nrisdk1ahf.execute-api.us-east-1.amazonaws.com/dev/notes
+
+GET {{endpoint}}
+###
+
+POST {{endpoint}}
+Content-Type: application/json
+
+{
+    "hello": "world"
+}
+###
+
+PUT {{endpoint}}/23
+Content-Type:  application/json
+
+{
+    "note": "note 23"
+}
+
+###
+
+DELETE  {{endpoint}}/23
