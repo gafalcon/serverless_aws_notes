@@ -1,13 +1,18 @@
 @endpoint = https://nrisdk1ahf.execute-api.us-east-1.amazonaws.com/dev/notes
 
 GET {{endpoint}}
+Authorization: allow
 ###
 
+GET {{endpoint}}/1
+Authorization: allow
+
+###
 POST {{endpoint}}
 Content-Type: application/json
 
 {
- "id": "2",
+ "id": "3",
  "title": "title",
  "body": "body"
 }

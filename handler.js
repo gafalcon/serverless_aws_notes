@@ -1,7 +1,9 @@
 const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocument } = require("@aws-sdk/lib-dynamodb");
 
-const dbClient = new DynamoDBClient({ region: "us-east-1" });
+const dbClient = new DynamoDBClient({
+  region: "us-east-1",
+});
 const ddbDocClient = DynamoDBDocument.from(dbClient);
 const NOTES_TABLE_NAME = process.env.NOTES_TABLE_NAME;
 
