@@ -1,0 +1,62 @@
+Resources:
+  # Notes DynamoDB Table
+  notesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: notesTable
+      AttributeDefinitions:
+        - AttributeName: notesId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: notesId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  # Cognito User Pool
+  cognitoNotesUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: MyNotesUserPool
+
+  # Cognito User Pool Client
+  cognitoNotesUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref cognitoNotesUserPool
+      ClientName: web
+      CallbackURLs:
+        - http://localhost:4000
+      AllowedOAuthFlows:
+        - implicit
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthScopes:
+        - phone
+        - email
+        - profile
+        - openid
+      SupportedIdentityProviders:
+        - COGNITO
+
+  # Cognito User Pool Domain
+  cognitoNotesUserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: gafalconnotescd
+      UserPoolId: !Ref cognitoNotesUserPool
+
+  # ApiGatewayAuthorizer:
+  #   Type: AWS::ApiGateway::Authorizer
+  #   Properties:
+  #     Name: CognitoUserPool
+  #     Type: COGNITO_USER_POOLS
+  #     IdentitySource: method.request.header.Authorization
+  #     RestApiId: !Ref ApiGatewayRestApi
+  #     ProviderARNs:
+  #       - !GetAtt cognitoNotesUserPool.Arn
+
+  userPoolIdParam:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: /notes/dev/userPoolArn
+      Type: String
+      Value: !GetAtt cognitoNotesUserPool.Arn

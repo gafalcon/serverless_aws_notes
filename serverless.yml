@@ -10,7 +10,9 @@ provider:
 functions:
   authorizer:
     handler: authorizer.handler
-
+    environment:
+      COGNITO_USERPOOL_ID: !Ref cognitoNotesUserPool
+      COGNITO_WEB_CLIENT_ID: !Ref cognitoNotesUserPoolClient
   createNote:
     handler: handler.createNote
     events:
@@ -77,7 +79,12 @@ functions:
       - http:
           method: get
           path: notes/{id}
-          authorizer: authorizer
+          authorizer:
+            name: userpool_authorizer
+            type: COGNITO_USER_POOLS
+            arn: !GetAtt cognitoNotesUserPool.Arn
+            # authorizerId:
+            #   Ref: ApiGatewayAuthorizer
     environment:
       NOTES_TABLE_NAME: !Ref notesTable
     iamRoleStatements:
@@ -88,15 +95,4 @@ functions:
 plugins:
   - serverless-iam-roles-per-function
 resources:
-  Resources:
-    notesTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: notesTable
-        AttributeDefinitions:
-          - AttributeName: notesId
-            AttributeType: S
-        KeySchema:
-          - AttributeName: notesId
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST
+  - ${file(resources.yml)}

@@ -11,7 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.299.0",
-    "@aws-sdk/lib-dynamodb": "^3.299.0"
+    "@aws-sdk/lib-dynamodb": "^3.299.0",
+    "aws-jwt-verify": "^4.0.0"
   },
   "devDependencies": {
     "serverless-iam-roles-per-function": "^3.2.0"

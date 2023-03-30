@@ -1,15 +1,17 @@
 @endpoint = https://nrisdk1ahf.execute-api.us-east-1.amazonaws.com/dev/notes
+@token = eyJraWQiOiJOMzhUSTdRY2VHK2pJaEppbkw3bzNpaGdEc2J1UVROWkJ0dUlST0UxbDhBPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiVXZ0MHVtQ2hSWkdiaFBHdk1Mak5JdyIsInN1YiI6IjhjMTllOTI0LTJmOWMtNGFhMy04Y2JhLTAwNzM2NGNmYmUzMSIsImF1ZCI6IjJoMGY0NTVnYThtam40M2tvNmZhZW8ydmYxIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2Nzk4Njk0OTIsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX0FIQURWRVo2QiIsImNvZ25pdG86dXNlcm5hbWUiOiJnYWJvIiwiZXhwIjoxNjc5ODczMDkyLCJpYXQiOjE2Nzk4Njk0OTIsImp0aSI6IjM3NmM2YWI4LWY4ZTMtNGQzZi04ODdlLTU3OWVmNTk4N2U5MCIsImVtYWlsIjoiZ2Fib2ZhbGNAZ21haWwuY29tIn0.D4tKGxMmQVtdhh8dGZEUvlrnd5legKrNNs4GlFPVeKd-J74hidNdcDZFUKbZCAWqE4k5v6wdxMxahoBWrSHuxLhuPkNOrw3C0db5tLNEGYRfZgSriQcZGJ2SHl9ZMx9l44R7EW8uO3RHlPbQagoyHKRlzj407q9LLKLOrEvwAz0C5DD6DmTztzwlTxTweKzwXynJFEJSH906LTgs4mNBp5w--6Kf1WP3HYKXLecsIRw8ymRN3rDGX4_sE5-uNY7HIRmPLEhB7ZcwIauCC0rjm_a1GkR-XIyDWcd-5xMjM1HpbUqX1CVw3pYT_NIIHYzvXPYP3DWBG6WUUKNm506TEQ
 
 GET {{endpoint}}
-Authorization: allow
+Authorization: {{token}}
 ###
 
 GET {{endpoint}}/1
-Authorization: allow
+Authorization: {{token}}
 
 ###
 POST {{endpoint}}
 Content-Type: application/json
+Authorization: allow
 
 {
  "id": "3",
