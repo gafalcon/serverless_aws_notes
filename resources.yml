@@ -3,7 +3,7 @@ Resources:
   notesTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: notesTable
+      TableName: notesTable-${self:provider.stage}
       AttributeDefinitions:
         - AttributeName: notesId
           AttributeType: S
@@ -16,7 +16,7 @@ Resources:
   cognitoNotesUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
-      UserPoolName: MyNotesUserPool
+      UserPoolName: MyNotesUserPool-${self:provider.stage}
 
   # Cognito User Pool Client
   cognitoNotesUserPoolClient:
@@ -41,7 +41,7 @@ Resources:
   cognitoNotesUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
-      Domain: gafalconnotescd
+      Domain: gafalconnotescd-${self:provider.stage}
       UserPoolId: !Ref cognitoNotesUserPool
 
   # ApiGatewayAuthorizer:
@@ -54,9 +54,9 @@ Resources:
   #     ProviderARNs:
   #       - !GetAtt cognitoNotesUserPool.Arn
 
-  userPoolIdParam:
+  userPoolArnParam:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: /notes/dev/userPoolArn
+      Name: /notes/${self:provider.stage}/userPoolArn
       Type: String
       Value: !GetAtt cognitoNotesUserPool.Arn
